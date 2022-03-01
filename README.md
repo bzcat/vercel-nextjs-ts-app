@@ -1,2 +1,4 @@
 # vercel-nextjs-ts-app
-Test Vercel, Next.js TypeScript
+
+Test Vercel, Next.js, TypeScript
+

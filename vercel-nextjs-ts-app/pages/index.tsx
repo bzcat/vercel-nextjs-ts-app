@@ -1,12 +1,30 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
 // import Link from 'next/link'
-import styles from '../styles/Home.module.css'
-import { getSortedPostsData } from '../lib/posts'
-import { GetStaticProps } from 'next'
+import styles from "../styles/Home.module.css";
+import { getSortedPostsData, Post } from "../lib/posts";
+import { GetStaticProps } from "next";
 
-const Home: NextPage = () => {
+type HomeProps = {
+  posts: Post[];
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  console.log(`env_test:${process.env.FOO}`);
+  console.log(`env_test(NEXT_PUBLIC):${process.env.NEXT_PUBLIC_FOO}`);
+  const posts = getSortedPostsData();
+  return {
+    props: {
+      posts,
+    },
+  };
+};
+
+const Home: NextPage<HomeProps> = (props) => {
+  const { posts } = props;
+  // console.log(props);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -20,23 +38,22 @@ const Home: NextPage = () => {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
         <section className={styles.headingMd}>
           <p>Hoge</p>
+          <h1>.env test</h1>
+          {/* <p>env:{process.env.FOO}</p> */}
+          <p>next_public:{process.env.NEXT_PUBLIC_FOO}</p>
         </section>
         <section className={`${styles.headingMd} ${styles.padding1px}`}>
           <h2 className={styles.headingLg}>List</h2>
           <ul className={styles.list}>
-            <li className={styles.listItem} key='dummy'>
-              Todo.ListItem
-            </li>
+            {props.posts.map((post) => (
+              <li className={styles.listItem} key={post.id}>
+                {post.id}: {post.title}: {post.date}
+              </li>
+            ))}
           </ul>
         </section>
-
       </main>
 
       <footer className={styles.footer}>
@@ -45,23 +62,14 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export const getStaticProps: GetStaticProps = async () => {
-  const allPostsData = getSortedPostsData()
-  return {
-    props: {
-      allPostsData
-    }
-  }
-}
-
-export default Home
+export default Home;

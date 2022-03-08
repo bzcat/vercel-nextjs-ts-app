@@ -8,7 +8,7 @@ import { GetStaticProps } from "next";
 
 type HomeProps = {
   posts: Post[];
-}
+};
 
 export const getStaticProps: GetStaticProps = async () => {
   console.log(`env_test:${process.env.FOO}`);

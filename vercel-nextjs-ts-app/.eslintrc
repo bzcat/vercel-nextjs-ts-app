@@ -26,5 +26,15 @@
         "storybook/default-exports": "off"
       }
     }
-  ]
+  ],
+  "plugins": ["tailwindcss"],
+  "settings": {
+    "tailwindcss": {
+      "config": "./tailwind.config.js",
+      "groupByResponsive": true
+    },
+    "import/resolver": {
+      "typescript": { "project": "./" }
+    }
+  }
 }
